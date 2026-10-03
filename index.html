@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI & Tech Grammar: Modals & Future Predictions</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0B0F19',
+                            card: '#111827',
+                            border: '#1F2937',
+                            accent: '#06B6D4',
+                            purple: '#8B5CF6',
+                            emerald: '#10B981',
+                            rose: '#F43F5E'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0B0F19;
+            color: #F3F4F6;
+        }
+
+        /* 3D Card Flip Styles */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        /* Neon Glow Effects */
+        .glow-accent {
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.25);
+        }
+        .glow-purple {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.25);
+        }
+        .glow-emerald {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.25);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0F19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1F2937;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #374151;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
+
+    <!-- Header / Navbar -->
+    <header class="border-b border-gray-800 bg-gray-900/80 backdrop-blur sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-cyan-500/20">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-emerald-400 bg-clip-text text-transparent">
+                        AI & Tech English
+                    </h1>
+                    <p class="text-xs text-gray-400 hidden sm:block">Modals of Deduction & Future Predictions</p>
+                </div>
+            </div>
+
+            <!-- Mode Switcher Tabs -->
+            <div class="flex items-center space-x-1 sm:space-x-2 bg-gray-950 p-1 rounded-xl border border-gray-800">
+                <button id="tab-flashcards" onclick="switchMode('flashcards')" class="px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 bg-cyan-500 text-black shadow-md font-semibold">
+                    <i class="fa-solid fa-clone mr-1.5"></i> Flashcards
+                </button>
+                <button id="tab-quiz" onclick="switchMode('quiz')" class="px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-gray-400 hover:text-white transition-all duration-200">
+                    <i class="fa-solid fa-pen-to-square mr-1.5"></i> Practice Quiz
+                </button>
+            </div>
+
+            <!-- Cheat Sheet Toggle -->
+            <button onclick="toggleCheatSheet()" class="p-2.5 rounded-xl border border-gray-700 bg-gray-800 hover:bg-gray-700 text-cyan-400 hover:text-cyan-300 transition-all flex items-center gap-2 text-sm font-medium">
+                <i class="fa-solid fa-book-open"></i>
+                <span class="hidden md:inline">Grammar Rules</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-5xl mx-auto px-4 py-6 sm:py-8 flex-grow w-full">
+
+        <!-- ================= FLASHCARDS MODE ================= -->
+        <section id="section-flashcards" class="flex flex-col items-center">
+            
+            <!-- Filter & Stats Bar -->
+            <div class="w-full max-w-2xl flex flex-wrap items-center justify-between gap-4 mb-6 bg-gray-900/60 p-4 rounded-2xl border border-gray-800">
+                <div class="flex items-center space-x-2">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-gray-400">Show:</span>
+                    <select id="card-filter" onchange="filterCards(this.value)" class="bg-gray-950 border border-gray-700 text-xs sm:text-sm text-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:border-cyan-500">
+                        <option value="all">All Cards</option>
+                        <option value="unmastered">Needs Practice</option>
+                        <option value="mastered">Mastered</option>
+                    </select>
+                </div>
+
+                <div class="flex items-center space-x-4 text-xs sm:text-sm">
+                    <div class="flex items-center gap-1.5 text-emerald-400">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span id="stat-mastered">0</span> Mastered
+                    </div>
+                    <div class="flex items-center gap-1.5 text-gray-400">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span id="stat-total">0</span> Total
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full max-w-2xl bg-gray-900 h-2 rounded-full overflow-hidden mb-6 border border-gray-800">
+                <div id="flashcard-progress" class="bg-gradient-to-r from-cyan-500 to-purple-500 h-full w-0 transition-all duration-300"></div>
+            </div>
+
+            <!-- Flashcard 3D Container -->
+            <div class="w-full max-w-2xl h-80 sm:h-96 perspective-1000 my-2 cursor-pointer select-none group" onclick="flipCard()">
+                <div id="flashcard-inner" class="relative w-full h-full transform-style-3d transition-transform duration-500 rounded-3xl shadow-2xl">
+                    
+                    <!-- FRONT OF CARD -->
+                    <div class="absolute inset-0 w-full h-full backface-hidden rounded-3xl bg-gradient-to-br from-gray-900 via-gray-900 to-gray-950 border-2 border-gray-800 p-6 sm:p-8 flex flex-col justify-between group-hover:border-cyan-500/50 transition-colors shadow-lg">
+                        <div class="flex justify-between items-center">
+                            <span id="card-category" class="text-xs font-semibold tracking-wider uppercase px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/30 text-cyan-400">
+                                Category
+                            </span>
+                            <span id="card-status-badge" class="text-xs px-2.5 py-1 rounded-full font-medium bg-gray-800 text-gray-400">
+                                Unreviewed
+                            </span>
+                        </div>
+
+                        <div class="my-auto text-center px-2">
+                            <p id="card-front-context" class="text-xs sm:text-sm text-gray-400 font-mono mb-3">Context prompt</p>
+                            <h2 id="card-front-text" class="text-lg sm:text-2xl font-bold text-gray-100 leading-relaxed">
+                                Front Card Text
+                            </h2>
+                        </div>
+
+                        <div class="flex justify-between items-center text-xs text-gray-500 border-t border-gray-800/80 pt-4">
+                            <span><i class="fa-solid fa-hand-pointer mr-1"></i> Click or press <kbd class="px-1.5 py-0.5 bg-gray-800 rounded border border-gray-700 text-gray-300">Space</kbd> to flip</span>
+                            <span id="card-counter">1 / 10</span>
+                        </div>
+                    </div>
+
+                    <!-- BACK OF CARD -->
+                    <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-3xl bg-gradient-to-br from-gray-900 via-slate-900 to-purple-950/40 border-2 border-purple-500/50 p-6 sm:p-8 flex flex-col justify-between shadow-2xl">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-semibold tracking-wider uppercase px-3 py-1 rounded-full bg-purple-950/80 border border-purple-500/30 text-purple-300">
+                                Model Answer & Grammar
+                            </span>
+                            <i class="fa-solid fa-brain text-purple-400"></i>
+                        </div>
+
+                        <div class="my-auto text-center px-2">
+                            <h3 id="card-back-answer" class="text-lg sm:text-2xl font-bold text-emerald-400 mb-3 leading-relaxed">
+                                Correct Modal Phrase
+                            </h3>
+                            <div class="bg-gray-950/80 p-3 sm:p-4 rounded-xl border border-purple-900/40 text-left">
+                                <p id="card-back-explanation" class="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                                    Grammar Explanation Rule goes here...
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="text-center text-xs text-purple-300/60 pt-2">
+                            Flip back to check the context
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls & Self Assessment -->
+            <div class="w-full max-w-2xl mt-6 flex flex-col gap-4">
+                <!-- Navigation Controls -->
+                <div class="flex items-center justify-between gap-2">
+                    <button onclick="prevCard()" class="px-4 py-2.5 rounded-xl border border-gray-800 bg-gray-900 hover:bg-gray-800 text-gray-200 transition-all flex items-center gap-2 text-sm">
+                        <i class="fa-solid fa-arrow-left"></i> Previous
+                    </button>
+                    
+                    <button onclick="shuffleCards()" class="p-2.5 rounded-xl border border-gray-800 bg-gray-900 hover:bg-gray-800 text-gray-400 hover:text-white transition-all" title="Shuffle Deck">
+                        <i class="fa-solid fa-shuffle"></i>
+                    </button>
+
+                    <button onclick="nextCard()" class="px-4 py-2.5 rounded-xl border border-gray-800 bg-gray-900 hover:bg-gray-800 text-gray-200 transition-all flex items-center gap-2 text-sm">
+                        Next <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Self Grading Buttons -->
+                <div class="grid grid-cols-2 gap-3 pt-2">
+                    <button onclick="markCardStatus(false)" class="py-3 px-4 rounded-xl bg-gray-900 hover:bg-rose-950/50 border border-gray-800 hover:border-rose-500/50 text-rose-400 hover:text-rose-300 font-medium text-sm transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-xmark"></i> Needs Practice
+                    </button>
+                    <button onclick="markCardStatus(true)" class="py-3 px-4 rounded-xl bg-gray-900 hover:bg-emerald-950/50 border border-gray-800 hover:border-emerald-500/50 text-emerald-400 hover:text-emerald-300 font-medium text-sm transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-check"></i> Mastered
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= QUIZ / PRACTICE MODE ================= -->
+        <section id="section-quiz" class="hidden max-w-3xl mx-auto flex-col items-center">
+            
+            <!-- Quiz Progress -->
+            <div class="w-full bg-gray-900/60 p-4 rounded-2xl border border-gray-800 mb-6 flex items-center justify-between">
+                <div>
+                    <h2 class="text-sm font-semibold text-gray-300">Interactive Quiz Mode</h2>
+                    <p class="text-xs text-gray-500">Select or complete the accurate modal/prediction structure.</p>
+                </div>
+                <div class="text-right">
+                    <span id="quiz-score-display" class="text-lg font-bold text-cyan-400">Score: 0/0</span>
+                </div>
+            </div>
+
+            <!-- Quiz Question Card -->
+            <div class="w-full bg-gray-900 rounded-3xl border border-gray-800 p-6 sm:p-8 shadow-xl">
+                <div class="flex justify-between items-center mb-6">
+                    <span id="quiz-tag" class="text-xs font-semibold tracking-wider uppercase px-3 py-1 rounded-full bg-purple-950 border border-purple-500/30 text-purple-300">
+                        Scenario Question
+                    </span>
+                    <span id="quiz-progress-text" class="text-xs text-gray-500 font-mono">Question 1 of 8</span>
+                </div>
+
+                <div class="mb-6">
+                    <p id="quiz-context" class="text-xs sm:text-sm text-gray-400 mb-2 font-mono">Context...</p>
+                    <h3 id="quiz-question" class="text-base sm:text-xl font-medium text-gray-100 leading-relaxed">
+                        Question text goes here...
+                    </h3>
+                </div>
+
+                <!-- Multiple Choice Options -->
+                <div id="quiz-options" class="grid grid-cols-1 gap-3 mb-6">
+                    <!-- Options injected by JavaScript -->
+                </div>
+
+                <!-- Feedback Box -->
+                <div id="quiz-feedback" class="hidden p-4 rounded-2xl border mb-6 transition-all">
+                    <div class="flex items-start gap-3">
+                        <i id="feedback-icon" class="fa-solid fa-circle-info text-xl mt-0.5"></i>
+                        <div>
+                            <h4 id="feedback-title" class="font-bold text-sm mb-1">Feedback</h4>
+                            <p id="feedback-text" class="text-xs sm:text-sm leading-relaxed">Explanation content...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <div class="flex justify-end">
+                    <button id="quiz-next-btn" onclick="nextQuestion()" class="hidden px-6 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-semibold text-sm transition-all flex items-center gap-2">
+                        Next Question <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= CHEAT SHEET DRAWER / MODAL ================= -->
+    <div id="cheatsheet-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex justify-end transition-opacity">
+        <div class="w-full max-w-2xl bg-gray-900 border-l border-gray-800 h-full overflow-y-auto p-6 sm:p-8 flex flex-col justify-between shadow-2xl">
+            <div>
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-800">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-book-bookmark text-cyan-400 text-xl"></i>
+                        <h2 class="text-xl font-bold text-white">Grammar Reference Guide</h2>
+                    </div>
+                    <button onclick="toggleCheatSheet()" class="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-800">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-6 text-sm text-gray-300">
+                    <!-- Section 1: Modals of Deduction (Present) -->
+                    <div class="bg-gray-950 p-4 rounded-2xl border border-gray-800">
+                        <h3 class="text-cyan-400 font-bold text-base mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-magnifying-glass"></i> Modals of Deduction (Present)
+                        </h3>
+                        <ul class="space-y-2 text-xs sm:text-sm">
+                            <li><strong class="text-emerald-400">Must + base verb:</strong> High certainty (+). You are 90%+ sure something is true.
+                                <p class="text-gray-400 italic mt-0.5">"This server rack is glowing red; it MUST BE overheating."</p>
+                            </li>
+                            <li class="pt-2"><strong class="text-rose-400">Can't + base verb:</strong> Strong negative certainty (-). You are sure something is impossible.
+                                <p class="text-gray-400 italic mt-0.5">"That output CAN'T BE correct; the logic has a flaw."</p>
+                            </li>
+                            <li class="pt-2"><strong class="text-purple-400">Might / Could / May + base verb:</strong> Possibility (30-50% sure).
+                                <p class="text-gray-400 italic mt-0.5">"The network failure MIGHT BE caused by a DDoS attack."</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Section 2: Modals of Deduction (Past) -->
+                    <div class="bg-gray-950 p-4 rounded-2xl border border-gray-800">
+                        <h3 class="text-purple-400 font-bold text-base mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-clock-rotate-left"></i> Modals of Past Deduction
+                        </h3>
+                        <ul class="space-y-2 text-xs sm:text-sm">
+                            <li><strong class="text-emerald-400">Must have + past participle:</strong> Certain past deduction.
+                                <p class="text-gray-400 italic mt-0.5">"The database crashed; hackers MUST HAVE exploited a vulnerability."</p>
+                            </li>
+                            <li class="pt-2"><strong class="text-rose-400">Can't have + past participle:</strong> Impossible past action.
+                                <p class="text-gray-400 italic mt-0.5">"He CAN'T HAVE sent that email; his account was offline."</p>
+                            </li>
+                            <li class="pt-2"><strong class="text-cyan-400">Might have / Could have + p.p.:</strong> Possible past event.
+                                <p class="text-gray-400 italic mt-0.5">"The algorithm MIGHT HAVE misclassified the raw image."</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Section 3: Future Predictions & Probability -->
+                    <div class="bg-gray-950 p-4 rounded-2xl border border-gray-800">
+                        <h3 class="text-emerald-400 font-bold text-base mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-crystal-ball"></i> Future Predictions & Likelihood
+                        </h3>
+                        <ul class="space-y-2 text-xs sm:text-sm">
+                            <li><strong class="text-cyan-400">Be bound to + verb:</strong> Inevitable or almost certain based on present evidence.
+                                <p class="text-gray-400 italic mt-0.5">"AI integration IS BOUND TO change workplace productivity."</p>
+                            </li>
+                            <li class="pt-2"><strong class="text-emerald-400">Be (un)likely to + verb:</strong> High probability or improbability.
+                                <p class="text-gray-400 italic mt-0.5">"Quantum computing IS LIKELY TO disrupt standard encryption."</p>
+                            </li>
+                            <li class="pt-2"><strong class="text-purple-400">Will be + -ing (Future Continuous):</strong> Action in progress at a specific future time.
+                                <p class="text-gray-400 italic mt-0.5">"In 2030, millions WILL BE WORKING alongside humanoid robots."</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-gray-800">
+                <button onclick="toggleCheatSheet()" class="w-full py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-white font-medium text-sm transition-all">
+                    Close Guide
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800/60 bg-gray-950 py-4 text-center text-xs text-gray-500">
+        <p>Interactive English Grammar Practice • AI & Tech Predictions Domain</p>
+    </footer>
+
+    <!-- JavaScript Data and Application Logic -->
+    <script>
+        const flashcardsData = [
+            {
+                id: 1,
+                category: "Present Deduction (High Certainty)",
+                context: "Context: The system is responding in under 2ms despite millions of global concurrent requests.",
+                front: "The server architecture ___ (be) using distributed cloud edge nodes; nothing else explains this speed.",
+                answer: "MUST BE",
+                explanation: "Use <strong>MUST + base verb</strong> when you are 90%+ sure something is logically true based on strong evidence.",
+                mastered: false
+            },
+            {
+                id: 2,
+                category: "Present Deduction (Negative Certainty)",
+                context: "Context: Someone claims an offline 8-bit chip from 1995 is running a 70B parameter LLM.",
+                front: "That claim ___ (be) true. Old hardware physically lacks the memory bandwidth for modern LLMs.",
+                answer: "CAN'T BE",
+                explanation: "Use <strong>CAN'T + base verb</strong> for strong negative deductions when something is logically impossible.",
+                mastered: false
+            },
+            {
+                id: 3,
+                category: "Future Likelihood / Probability",
+                context: "Context: Neural interface chips are advancing rapidly in clinical trials.",
+                front: "Brain-computer interfaces ___ (likely / transform) prosthetic control within the next decade.",
+                answer: "ARE LIKELY TO TRANSFORM",
+                explanation: "Use <strong>BE LIKELY TO + base verb</strong> to express a high probability or strong expectation for future events.",
+                mastered: false
+            },
+            {
+                id: 4,
+                category: "Past Deduction (High Certainty)",
+                context: "Context: The entire system shut down automatically after detecting an unverified administrator access attempt.",
+                front: "The security protocol ___ (trigger) an immediate lockdown when it saw the unauthorized token.",
+                answer: "MUST HAVE TRIGGERED",
+                explanation: "Use <strong>MUST HAVE + Past Participle</strong> for logical certainty about a past event.",
+                mastered: false
+            },
+            {
+                id: 5,
+                category: "Inevitability / Strong Prediction",
+                context: "Context: Autonomous driving models are accumulating billions of miles of real-world training data.",
+                front: "Self-driving logistics transport ___ (bound / replace) long-haul manual routes eventually.",
+                answer: "IS BOUND TO REPLACE",
+                explanation: "Use <strong>BE BOUND TO + base verb</strong> when something is almost certain or inevitable based on current momentum.",
+                mastered: false
+            },
+            {
+                id: 6,
+                category: "Future Continuous Prediction",
+                context: "Context: Looking ahead to how developer roles will evolve by the year 2035.",
+                front: "By 2035, software engineers ___ (will / work) primarily as system architects managing autonomous AI agents.",
+                answer: "WILL BE WORKING",
+                explanation: "Use <strong>WILL BE + -ING (Future Continuous)</strong> for actions that will be in progress at a specific time in the future.",
+                mastered: false
+            },
+            {
+                id: 7,
+                category: "Possibility / Uncertainty",
+                context: "Context: Experts debating whether quantum encryption will make standard public keys obsolete next year.",
+                front: "Quantum breakthroughs ___ (might / disrupt) cybersecurity sooner than predicted, though timelines remain uncertain.",
+                answer: "MIGHT / COULD DISRUPT",
+                explanation: "Use <strong>MIGHT / COULD / MAY + base verb</strong> to express uncertain possibility (30-50% certainty).",
+                mastered: false
+            },
+            {
+                id: 8,
+                category: "Past Deduction (Impossibility)",
+                context: "Context: An AI generated this image in 2024, but a blogger claims it was taken with a camera in 1920.",
+                front: "This photograph ___ (can't / take) in 1920 because color digital sensors did not exist back then.",
+                answer: "CAN'T HAVE BEEN TAKEN",
+                explanation: "Use <strong>CAN'T HAVE + Past Participle</strong> for past actions that were logically impossible.",
+                mastered: false
+            }
+        ];
+
+        const quizData = [
+            {
+                context: "Look at the AI benchmark chart. Model X outperformed all existing models on logic and coding without extra training.",
+                question: "Model X _____ trained on synthetic reasoning data prior to testing; there is no other logical explanation.",
+                options: [
+                    { text: "must have been", correct: true },
+                    { text: "can't be", correct: false },
+                    { text: "will be", correct: false },
+                    { text: "is bound to be", correct: false }
+                ],
+                explanation: "<strong>'Must have been'</strong> is correct because we are making a strong positive logical deduction about a past event based on current benchmark proof."
+            },
+            {
+                context: "Evaluating a suspicious deepfake video clip showing a politician speaking underwater without equipment.",
+                question: "This video _____ genuine. The visual artifacts and impossible physics make it obvious it's synthetic.",
+                options: [
+                    { text: "might be", correct: false },
+                    { text: "can't be", correct: true },
+                    { text: "is likely to be", correct: false },
+                    { text: "must be", correct: false }
+                ],
+                explanation: "<strong>'Can't be'</strong> expresses strong negative certainty (impossibility) in the present."
+            },
+            {
+                context: "Predicting workplace changes in tech companies by the year 2030.",
+                question: "In 2030, most developers _____ alongside autonomous coding assistants daily.",
+                options: [
+                    { text: "will be working", correct: true },
+                    { text: "must work", correct: false },
+                    { text: "can't have worked", correct: false },
+                    { text: "might worked", correct: false }
+                ],
+                explanation: "<strong>'Will be working'</strong> (Future Continuous) is used for an ongoing activity in progress at a specified point in the future."
+            },
+            {
+                context: "Discussing chip manufacturing progress and physical limits of silicon.",
+                question: "Given current research investments, optical computing chipsets _____ standard silicon in high-performance clusters.",
+                options: [
+                    { text: "are likely to replace", correct: true },
+                    { text: "can't have replaced", correct: false },
+                    { text: "must replaced", correct: false },
+                    { text: "will working", correct: false }
+                ],
+                explanation: "<strong>'Are likely to replace'</strong> correctly expresses high probability for future tech developments."
+            },
+            {
+                context: "Analyzing a sudden server network latency spike during peak traffic hours.",
+                question: "The network bottleneck _____ caused by a unexpected hardware fault, but engineers are still inspecting logs.",
+                options: [
+                    { text: "might be", correct: true },
+                    { text: "is bound to", correct: false },
+                    { text: "can't have", correct: false },
+                    { text: "will been", correct: false }
+                ],
+                explanation: "<strong>'Might be'</strong> expresses open possibility with uncertainty."
+            }
+        ];
+
+        let currentDeck = [...flashcardsData];
+        let currentCardIndex = 0;
+        let isFlipped = false;
+        let activeFilter = 'all';
+
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let quizAnswered = false;
+
+        // Init
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCard();
+            updateStats();
+            setupKeyboardNav();
+            renderQuizQuestion();
+        });
+
+        // Mode Switching
+        function switchMode(mode) {
+            const flashcardTab = document.getElementById('tab-flashcards');
+            const quizTab = document.getElementById('tab-quiz');
+            const flashcardSection = document.getElementById('section-flashcards');
+            const quizSection = document.getElementById('section-quiz');
+
+            if (mode === 'flashcards') {
+                flashcardTab.className = "px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 bg-cyan-500 text-black shadow-md";
+                quizTab.className = "px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-gray-400 hover:text-white transition-all duration-200";
+                flashcardSection.classList.remove('hidden');
+                quizSection.classList.add('hidden');
+            } else {
+                quizTab.className = "px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 bg-cyan-500 text-black shadow-md";
+                flashcardTab.className = "px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-gray-400 hover:text-white transition-all duration-200";
+                quizSection.classList.remove('hidden');
+                quizSection.classList.add('flex');
+                flashcardSection.classList.add('hidden');
+            }
+        }
+
+        function renderCard() {
+            if (currentDeck.length === 0) {
+                document.getElementById('card-category').innerText = "Empty Deck";
+                document.getElementById('card-status-badge').innerText = "N/A";
+                document.getElementById('card-front-context').innerText = "";
+                document.getElementById('card-front-text').innerText = "No cards match the selected filter.";
+                document.getElementById('card-counter').innerText = "0 / 0";
+                return;
+            }
+
+            const card = currentDeck[currentCardIndex];
+            
+            // Reset Flip
+            if (isFlipped) {
+                document.getElementById('flashcard-inner').classList.remove('rotate-y-180');
+                isFlipped = false;
+            }
+
+            setTimeout(() => {
+                document.getElementById('card-category').innerText = card.category;
+                document.getElementById('card-front-context').innerText = card.context;
+                document.getElementById('card-front-text').innerText = card.front;
+                document.getElementById('card-back-answer').innerText = card.answer;
+                document.getElementById('card-back-explanation').innerHTML = card.explanation;
+                document.getElementById('card-counter').innerText = `${currentCardIndex + 1} / ${currentDeck.length}`;
+
+                const badge = document.getElementById('card-status-badge');
+                if (card.mastered) {
+                    badge.innerText = "Mastered";
+                    badge.className = "text-xs px-2.5 py-1 rounded-full font-medium bg-emerald-950 text-emerald-400 border border-emerald-800";
+                } else {
+                    badge.innerText = "Needs Practice";
+                    badge.className = "text-xs px-2.5 py-1 rounded-full font-medium bg-rose-950 text-rose-400 border border-rose-900";
+                }
+
+                // Update Progress Bar
+                const progressPct = ((currentCardIndex + 1) / currentDeck.length) * 100;
+                document.getElementById('flashcard-progress').style.width = `${progressPct}%`;
+            }, isFlipped ? 150 : 0);
+        }
+
+        function flipCard() {
+            if (currentDeck.length === 0) return;
+            const inner = document.getElementById('flashcard-inner');
+            isFlipped = !isFlipped;
+            if (isFlipped) {
+                inner.classList.add('rotate-y-180');
+            } else {
+                inner.classList.remove('rotate-y-180');
+            }
+        }
+
+        function nextCard() {
+            if (currentDeck.length === 0) return;
+            currentCardIndex = (currentCardIndex + 1) % currentDeck.length;
+            renderCard();
+        }
+
+        function prevCard() {
+            if (currentDeck.length === 0) return;
+            currentCardIndex = (currentCardIndex - 1 + currentDeck.length) % currentDeck.length;
+            renderCard();
+        }
+
+        function shuffleCards() {
+            for (let i = currentDeck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [currentDeck[i], currentDeck[j]] = [currentDeck[j], currentDeck[i]];
+            }
+            currentCardIndex = 0;
+            renderCard();
+        }
+
+        function markCardStatus(isMastered) {
+            if (currentDeck.length === 0) return;
+            const currentCard = currentDeck[currentCardIndex];
+            
+            // Find original in main array
+            const origCard = flashcardsData.find(c => c.id === currentCard.id);
+            if (origCard) {
+                origCard.mastered = isMastered;
+            }
+
+            updateStats();
+
+            // Re-apply filter if active
+            if (activeFilter !== 'all') {
+                filterCards(activeFilter);
+            } else {
+                renderCard();
+            }
+        }
+
+        function filterCards(type) {
+            activeFilter = type;
+            if (type === 'mastered') {
+                currentDeck = flashcardsData.filter(c => c.mastered);
+            } else if (type === 'unmastered') {
+                currentDeck = flashcardsData.filter(c => !c.mastered);
+            } else {
+                currentDeck = [...flashcardsData];
+            }
+            currentCardIndex = 0;
+            renderCard();
+        }
+
+        function updateStats() {
+            const masteredCount = flashcardsData.filter(c => c.mastered).length;
+            document.getElementById('stat-mastered').innerText = masteredCount;
+            document.getElementById('stat-total').innerText = flashcardsData.length;
+        }
+
+        function setupKeyboardNav() {
+            document.addEventListener('keydown', (e) => {
+                // Ignore if drawer open
+                if (!document.getElementById('cheatsheet-modal').classList.contains('hidden')) return;
+
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    flipCard();
+                } else if (e.code === 'ArrowRight') {
+                    nextCard();
+                } else if (e.code === 'ArrowLeft') {
+                    prevCard();
+                }
+            });
+        }
+
+        function renderQuizQuestion() {
+            quizAnswered = false;
+            const q = quizData[currentQuizIndex];
+            document.getElementById('quiz-progress-text').innerText = `Question ${currentQuizIndex + 1} of ${quizData.length}`;
+            document.getElementById('quiz-context').innerText = q.context;
+            document.getElementById('quiz-question').innerText = q.question;
+
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-2xl bg-gray-950 border border-gray-800 hover:border-cyan-500/50 hover:bg-gray-800/50 transition-all font-medium text-sm sm:text-base text-gray-200 flex items-center justify-between group";
+                btn.onclick = () => selectQuizAnswer(idx, btn);
+                btn.innerHTML = `
+                    <span>${opt.text}</span>
+                    <i class="fa-regular fa-circle text-gray-600 group-hover:text-cyan-400"></i>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            document.getElementById('quiz-next-btn').classList.add('hidden');
+            document.getElementById('quiz-score-display').innerText = `Score: ${quizScore}/${quizData.length}`;
+        }
+
+        function selectQuizAnswer(selectedIndex, selectedBtn) {
+            if (quizAnswered) return;
+            quizAnswered = true;
+
+            const q = quizData[currentQuizIndex];
+            const isCorrect = q.options[selectedIndex].correct;
+
+            if (isCorrect) quizScore++;
+
+            const optionsButtons = document.getElementById('quiz-options').children;
+            
+            // Style selected & correct buttons
+            Array.from(optionsButtons).forEach((btn, idx) => {
+                btn.disabled = true;
+                if (q.options[idx].correct) {
+                    btn.className = "w-full text-left p-4 rounded-2xl bg-emerald-950/60 border-2 border-emerald-500 text-emerald-300 font-medium text-sm sm:text-base flex items-center justify-between";
+                    btn.innerHTML += `<i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>`;
+                } else if (idx === selectedIndex && !isCorrect) {
+                    btn.className = "w-full text-left p-4 rounded-2xl bg-rose-950/60 border-2 border-rose-500 text-rose-300 font-medium text-sm sm:text-base flex items-center justify-between";
+                    btn.innerHTML += `<i class="fa-solid fa-circle-xmark text-rose-400 text-lg"></i>`;
+                } else {
+                    btn.className = "w-full text-left p-4 rounded-2xl bg-gray-950/40 border border-gray-800/40 opacity-50 text-gray-500 text-sm sm:text-base";
+                }
+            });
+
+            // Feedback Box
+            const feedbackBox = document.getElementById('quiz-feedback');
+            const feedbackTitle = document.getElementById('feedback-title');
+            const feedbackText = document.getElementById('feedback-text');
+            const feedbackIcon = document.getElementById('feedback-icon');
+
+            feedbackBox.classList.remove('hidden');
+            if (isCorrect) {
+                feedbackBox.className = "p-4 rounded-2xl border bg-emerald-950/40 border-emerald-800/60 text-emerald-200 mb-6";
+                feedbackTitle.innerText = "Correct!";
+                feedbackIcon.className = "fa-solid fa-circle-check text-emerald-400 text-xl mt-0.5";
+            } else {
+                feedbackBox.className = "p-4 rounded-2xl border bg-rose-950/40 border-rose-800/60 text-rose-200 mb-6";
+                feedbackTitle.innerText = "Incorrect";
+                feedbackIcon.className = "fa-solid fa-circle-xmark text-rose-400 text-xl mt-0.5";
+            }
+
+            feedbackText.innerHTML = q.explanation;
+            document.getElementById('quiz-next-btn').classList.remove('hidden');
+            document.getElementById('quiz-score-display').innerText = `Score: ${quizScore}/${quizData.length}`;
+        }
+
+        function nextQuestion() {
+            if (currentQuizIndex < quizData.length - 1) {
+                currentQuizIndex++;
+                renderQuizQuestion();
+            } else {
+                // End of quiz
+                const optionsContainer = document.getElementById('quiz-options');
+                optionsContainer.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fa-solid fa-trophy text-4xl text-yellow-400 mb-3"></i>
+                        <h3 class="text-2xl font-bold text-white mb-2">Quiz Completed!</h3>
+                        <p class="text-gray-400 text-sm mb-4">Your final score is <span class="text-cyan-400 font-bold">${quizScore}</span> out of ${quizData.length}</p>
+                        <button onclick="resetQuiz()" class="px-6 py-2.5 rounded-xl bg-cyan-500 text-black font-semibold hover:bg-cyan-400 transition-all">
+                            Try Again
+                        </button>
+                    </div>
+                `;
+                document.getElementById('quiz-feedback').classList.add('hidden');
+                document.getElementById('quiz-next-btn').classList.add('hidden');
+            }
+        }
+
+        function resetQuiz() {
+            currentQuizIndex = 0;
+            quizScore = 0;
+            renderQuizQuestion();
+        }
+
+        function toggleCheatSheet() {
+            const modal = document.getElementById('cheatsheet-modal');
+            modal.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
